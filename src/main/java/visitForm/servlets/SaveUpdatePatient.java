@@ -21,11 +21,9 @@ import javax.naming.InitialContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import visitForm.models.Patient;
 
+import com.google.gson.Gson;
 /**
  *
  * @author Vlad
@@ -58,36 +56,28 @@ public class SaveUpdatePatient extends HttpServlet {
         User us = (User) session.getAttribute("user");
         String activeUserEmail = us.getUsername();
         PatientsTable pt = new PatientsTable();
-        ObjectMapper mapper = new ObjectMapper();
+        
         
         try {
 
+            Patient patient  = new Gson().fromJson(jsonData, Patient.class);
             
-            Patient patient  = mapper.readValue(jsonData, Patient.class);
             conn= dataSource.getConnection();
             
             patient.setClinician(activeUserEmail);
-            
             
             if (request.getParameter("type").equals("save")){
                 pt.savePatient(patient,conn);
             }
             else{
-                pt.updatePatient(patient,conn);
+                int rowsUpdated = pt.updatePatient(patient,conn);
+                if (rowsUpdated==0){
+                    response.setStatus(400);
+                    response.getWriter().write("No rows updated");
+                }
             }
-           
-            
+        }
 
-        }
-        catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } 
-        catch (JsonMappingException e) {
-            e.printStackTrace();
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
         catch (SQLException sqle){
                 sqle.printStackTrace();
             

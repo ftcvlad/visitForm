@@ -23,7 +23,7 @@ public class logout extends HttpServlet {
 
   
   
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         
@@ -34,9 +34,13 @@ public class logout extends HttpServlet {
             session.removeAttribute("user");//to do it faster, garbage collector would do anyway after invalidate
             session.invalidate();                               
              
-            //request.getRequestDispatcher("Login.jsp").forward(request, response);
-          response.sendRedirect(request.getContextPath()+"/Login.jsp");           
-           
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println("{\"redirectAddr\":\"Login\"}");
+
+
+            return;
+            
         }
         catch (Exception sqle)
         {

@@ -32,15 +32,32 @@ $(document).ready(function () {
       
 });
 
+
+//function sendLogoutRequest(){
+    
+//    $.ajax({
+//        url:"logout",
+//        type:"POST",
+//        data:{hello:123},
+//        contentType:"application/json; charset=utf-8",
+//        dataType:"json",
+//        success: function(){
+//          alert("for fuck s...");
+//        }
+//});
+//    
+//}
+
 function sendLogoutRequest(){
-     $.get("logout", function(data){
-        
-   
-       
+     $.post("logout",function(data){
+        window.location.href = data.redirectAddr;
+    }, "json")
+    .fail(function(jqXHR, textStatus, errorThrown ) {
+        alert(errorThrown);
     });
+                
     
-    
-    
+     
 }
 
 function resizeContent(){
@@ -283,8 +300,9 @@ function viewVisitsDisplay(responseArray, patientData){
               var fatBody = $("#page"+nextPageId+" tbody");
               for (var j=0;j< responseArray[i].otherSymptoms.length;j++){
         
-                    var propName = responseArray[i].otherSymptoms[j][0];
-                    var val = parseInt(responseArray[i].otherSymptoms[j][1]);
+                    var propName = responseArray[i].otherSymptoms[j];
+                    var val = parseInt(responseArray[i].otherSymptoms[j+1]);
+                    j++;
                    
                     var tableDatas = '<td><label class="tableLable" >'+propName+'</label></td>';
                     for (var k=1;k<=3;k++){
@@ -550,26 +568,29 @@ function submitVisit(){
         }
         else if (type === "object"){
             appsScriptLocked = true;
-            google.script.run
-                .withSuccessHandler(saveVisitSucceed)
-                .withFailureHandler(saveVisitFailed)
-                .saveVisitToDb(result);
+            
+            $.post("saveVisit", {data: JSON.stringify(result)}, function(){
+
+                $("#visitFormDiv .visitMessageDiv p").text('Done');
+                 appsScriptLocked = false;
+
+           }).fail(function( jqXHR,  textStatus, errorThrown) {
+
+                $("#visitFormDiv .visitMessageDiv p").text(jqXHR.responseText);
+                $("#visitFormDiv .visitMessageDiv").addClass("mistakeFieldLabel");
+                appsScriptLocked = false;
+           });
+            
+            
+           
         }
     
     
     }
 }
 
-function saveVisitFailed(error){
-    $("#visitFormDiv .visitMessageDiv p").text(error.message);
-    $("#visitFormDiv .visitMessageDiv").addClass("mistakeFieldLabel");
-    appsScriptLocked = false;
-}
 
-function saveVisitSucceed(){
-      $("#visitFormDiv .visitMessageDiv p").text('Done');
-      appsScriptLocked = false;
-}
+
 
 
 
@@ -762,13 +783,15 @@ function readVisitFormValues(){
           .each(function() { 
                    var text = $(this).children().eq(0).children().eq(0).text();
                    var selected = $(this).find("input[type='radio']:checked");
-                   symptomsArr.push([text, selected.val()]);  
+                   symptomsArr.push(text);
+                   symptomsArr.push(selected.val());
+                   
           });
         
 
 //FINALLY
-      if (errorHtmlString===""){
-           var allData = {clinicians:{name:nameOfClinician, date:visitDate, attendees:attendee}, 
+      if (errorHtmlString===""){//CHANGE TO === DON'T FORGET
+           var allData = {clinician:{name:nameOfClinician, date:visitDate, attendees:attendee}, 
                           appointmentType:appointmentType, 
                           plan:{weightGrowthOk:weightGrowthOk,bloodPressureOk:bloodPressureOk, comment:commentPlan, reviewIn:reviewIn},
                           progressProblems:{parentViewNotes:parentViewNotes, childViewNotes:childViewNotes},
@@ -776,6 +799,15 @@ function readVisitFormValues(){
                           allMedications:allMedications,
                           otherSymptoms:symptomsArr,
                           id: $("#visitFormDiv").data("id")};
+
+// var allData = {clinician:{name:"nameOfClinician", date:"visitDate", attendees:["attendee1", "att2"]}, 
+//                          appointmentType:"appointmentType", 
+//                          plan:{weightGrowthOk:1,bloodPressureOk:1, comment:"commentPlan", reviewIn:1},
+//                          progressProblems:{parentViewNotes:"parentViewNotes", childViewNotes:"childViewNotes"},
+//                          treatmentScores:{inattentionTot:1,impulsivityTotal:1,inattentionMean:1,deportmentMean:1,cgas:1 },
+//                          allMedications:["cucuil","mrazil"],
+//                          otherSymptoms:["zzzz","1","kkkk","2"],
+//                          id: $("#visitFormDiv").data("id")};
       
            return allData;
       }
@@ -814,13 +846,14 @@ function findPatients(){
 }
 
 
-function findPatientsSucceed(patientsStr){
+function findPatientsSucceed(allPatients){//[{},{},{}...]
 
+
+   
 
      var patientListHolder = $("#patientListHolder");
      patientListHolder.html('');
      
-     var allPatients = JSON.parse(patientsStr);
     
      for (var i=0; i<allPatients.length;i++){
          

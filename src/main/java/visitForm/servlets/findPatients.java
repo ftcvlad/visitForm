@@ -11,7 +11,7 @@ import visitForm.models.Patient;
 import visitForm.models.PatientsTable;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +19,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.sql.SQLException;
-import org.json.simple.JSONObject;
+
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import javax.naming.NamingException;
 import javax.naming.InitialContext;
 import java.util.ArrayList;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.OutputStream;
-import java.io.ByteArrayOutputStream;
+
+
+
+import com.google.gson.Gson;
 /**
  *
  * @author Vlad
@@ -61,22 +62,18 @@ public class findPatients extends HttpServlet {
         User us = (User) session.getAttribute("user");
         String activeUserEmail = us.getUsername();
         PatientsTable pt = new PatientsTable();
-        ObjectMapper mapper = new ObjectMapper();
+      
         try {
 
             conn= dataSource.getConnection();
             ArrayList<Patient> allPatients = pt.findPatients(activeUserEmail,name,conn);
             
-            
-            final OutputStream out = new ByteArrayOutputStream();
-            mapper.writeValue(out, allPatients);
+            String json = new Gson().toJson(allPatients);
 
-               
-          //  response.setContentType("application/json");
-            PrintWriter out2 = response.getWriter();
-            out2.print(out.toString());//"[{},{},{}...]"
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
 
-            out2.flush(); 
            
            
           

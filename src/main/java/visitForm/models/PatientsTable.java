@@ -82,7 +82,7 @@ public class PatientsTable {
              
     }
     
-     public void updatePatient(Patient patToSave,Connection conn) throws SQLException{
+     public int updatePatient(Patient patToSave,Connection conn) throws SQLException{
          
           
             PreparedStatement stmt = conn.prepareStatement("UPDATE formpatients"+
@@ -99,11 +99,12 @@ public class PatientsTable {
             stmt.setInt(8, patToSave.getId()); 
 
             int rowsUpdated = stmt.executeUpdate();//if 0, something wrong
+            return rowsUpdated;
      }
     
 
      
-       public void deletePatient(String activeUserEmail,int patientId,Connection conn) throws SQLException{
+       public int deletePatient(String activeUserEmail,int patientId,Connection conn) throws SQLException{
        
 
             PreparedStatement stmt = conn.prepareStatement(" delete from formpatients"+ 
@@ -113,6 +114,7 @@ public class PatientsTable {
             stmt.setInt(2, patientId); 
 
             int rowCount = stmt.executeUpdate();
+            return rowCount;
 
        }
      

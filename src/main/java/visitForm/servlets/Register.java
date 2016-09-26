@@ -61,7 +61,7 @@ public class Register extends HttpServlet {
 
         try{
 
-           // long start = System.currentTimeMillis();
+          
             conn = dataSource.getConnection();
            
             if (password.equals("") || password.length()>16){
@@ -74,9 +74,10 @@ public class Register extends HttpServlet {
             }
             else{
                  us.registerUser(username, password, conn);
-                 request.getRequestDispatcher("WEB-INF/Login.jsp").forward(request, response);
+                 //request.getRequestDispatcher("WEB-INF/Login.jsp").forward(request, response);
+                 response.sendRedirect("Login");
             }
-             //System.out.println("Time passed register: "+(System.currentTimeMillis()-start));
+             
            
             
 
