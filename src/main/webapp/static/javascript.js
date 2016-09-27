@@ -1,4 +1,4 @@
-var appsScriptLocked = false;
+var waitAjaxLock = false;
 
 $(document).ready(function () {
 
@@ -33,26 +33,17 @@ $(document).ready(function () {
 });
 
 
-//function sendLogoutRequest(){
-    
-//    $.ajax({
-//        url:"logout",
-//        type:"POST",
-//        data:{hello:123},
-//        contentType:"application/json; charset=utf-8",
-//        dataType:"json",
-//        success: function(){
-//          alert("for fuck s...");
-//        }
-//});
-//    
-//}
-
 function sendLogoutRequest(){
-     $.post("logout",function(data){
+   
+    if (waitAjaxLock){return;}
+    
+    waitAjaxLock = true;
+    $.post("logout",function(data){
+        waitAjaxLock = false;
         window.location.href = data.redirectAddr;
     }, "json")
     .fail(function(jqXHR, textStatus, errorThrown ) {
+        waitAjaxLock = false;
         alert(errorThrown);
     });
                 
@@ -94,8 +85,6 @@ function editPatient(target){
           
       }
 
-     // {name: name, surname:surname, gender:gender,birth:birth, firstVisit: firstVisit, comment:comment, nOfVisits:nOfVisits, id:id}
-    
     
       $("#nameField").val(obj.name);
       $("#surnameField").val(obj.surname);
@@ -133,7 +122,7 @@ function useAdduserDates(monthElem, dayElem, yearElem, date){
 }
 
 function deletePatient(target){
-      if (appsScriptLocked){return;}
+      if (waitAjaxLock){return;}
       
       $("#updatePatientBtn").remove();
       $("#patientListHeader p").text('Deleting patient...');
@@ -142,19 +131,20 @@ function deletePatient(target){
       var obj = JSON.parse($(target).parent().data("info"));
       var patientId = obj["id"];
       
-      appsScriptLocked = true;
+      waitAjaxLock = true;
+     
       
        $.post("deletePatient", {patientId: patientId}, function(){
         
             $(target).parent().remove();
             $("#patientListHeader p").text('Patient deleted successfully');
-            appsScriptLocked = false;
+            waitAjaxLock = false;
             
 
         }).fail(function( jqXHR,  textStatus, errorThrown) {
 
              $("#patientListHeader p").text(jqXHR.responseText);
-             appsScriptLocked = false;
+             waitAjaxLock = false;
         });
      
     
@@ -163,28 +153,11 @@ function deletePatient(target){
 
 
 
-function deletePatientSucceed(nothing, userObj){
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //VIEW ALL VISITS
 
 function viewVisits(target){
        
-      if (appsScriptLocked){return;}
+      if (waitAjaxLock){return;}
 
       $("#updatePatientBtn").remove();
       $("#visitFormDiv").css("display", "none");
@@ -198,8 +171,7 @@ function viewVisits(target){
       $("#patientSearchDiv").css("margin-left","-100%");
       
       var par = $("#visitListDiv .visitMessageDiv p");
-//      par.css("font-size","initial");
-//      par.css("font-weight", "normal");
+
       par.text('Retrieving visit list...');
      
         
@@ -212,22 +184,20 @@ function viewVisits(target){
    
   
     
-      appsScriptLocked = true;
+      waitAjaxLock = true;
     
-      google.script.run
-      .withSuccessHandler(viewVisitsDisplay)
-      .withFailureHandler(viewVisitsFailed)
-      .withUserObject(obj)
-      .retrieveVisitsFromDb(patientId);
-
+    $.get("getVisits",{id:patientId},function(data){
+        viewVisitsDisplay(data,obj);
+    })
+    .fail(function(jqXHR,errorStatus,errorThrown){
+        $("#visitListDiv .visitMessageDiv p").text(errorThrown);
+        $("#visitListDiv .visitMessageDiv").addClass("mistakeFieldLabel");
+        waitAjaxLock = false;
+                
+    });  
+    
 }
 
-
-function viewVisitsFailed(error){
-      $("#visitListDiv .visitMessageDiv p").text(error.message);
-      $("#visitListDiv .visitMessageDiv").addClass("mistakeFieldLabel");
-      appsScriptLocked = false;
-}
 
 
 function viewVisitsDisplay(responseArray, patientData){
@@ -265,9 +235,9 @@ function viewVisitsDisplay(responseArray, patientData){
               $("#visitListDiv").append(page);
               
               
-              page.append('<label class="sameLabelOptional">Clinician name:</label><p class="visitResColumn2" >'+responseArray[i].clinicians.name+'</p><br/>');
-              page.append('<label class="sameLabelOptional">Date:</label><p class="visitResColumn2" >'+responseArray[i].clinicians.date+'</p><br/>');
-              page.append('<label class="sameLabelOptional">Attendees:</label><p class="visitResColumn2" >'+responseArray[i].clinicians.attendees.join(", ")+'</p><br/>');
+              page.append('<label class="sameLabelOptional">Clinician name:</label><p class="visitResColumn2" >'+responseArray[i].clinician.name+'</p><br/>');
+              page.append('<label class="sameLabelOptional">Date:</label><p class="visitResColumn2" >'+responseArray[i].clinician.date+'</p><br/>');
+              page.append('<label class="sameLabelOptional">Attendees:</label><p class="visitResColumn2" >'+responseArray[i].clinician.attendees.join(", ")+'</p><br/>');
           
           
               page.append('<label class="sameLabelOptional">Appointment type:</label><p class="visitResColumn2" >'+responseArray[i].appointmentType+'</p><br/>');
@@ -312,7 +282,6 @@ function viewVisitsDisplay(responseArray, patientData){
                     fatBody.append('<tr>'+tableDatas+'</tr>');
               }
               
-              //-------------------------------------
               var pageA = $('<a id="'+nextPageId+'" onclick="switchPage('+nextPageId+');">'+nextPageId+'</a>');
               
           
@@ -341,17 +310,15 @@ function viewVisitsDisplay(responseArray, patientData){
     }
    
 
-    //id=page1, page2  pages ; id=1, 2 anchors
     
     $("#page"+responseArray.length).css("display", "block");
     $("#"+responseArray.length).addClass("activePage");
     
     var par = $("#visitListDiv .visitMessageDiv p");
     par.html(patientData.name+" "+patientData.surname);
-//    par.css("font-size","larger");
-//    par.css("font-weight", "bold");
+
     
-    appsScriptLocked = false;
+    waitAjaxLock = false;
 }
 
 
@@ -460,37 +427,11 @@ function hideVisitList(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//SCROLL TO CHILD
-
-
-//http://stackoverflow.com/questions/7198282/how-to-make-div-occupy-remaining-height
-//http://stackoverflow.com/questions/8525919/set-a-div-inside-of-a-div-to-scroll-while-parent-does-not-scroll
-
-
-
-
 //ADD VISIT
 
 
 function showVisitForm(target){
      
-
-
 //http://jsfiddle.net/3SYka/228/
     
        $("#updatePatientBtn").remove();
@@ -501,9 +442,6 @@ function showVisitForm(target){
 
     
        var obj = JSON.parse($(target).parent().data("info"));
-   
-  
-    
        $("#visitFormDiv").data("id", obj["id"]);
 }
 
@@ -517,8 +455,6 @@ function hideVisitForm(){
 
 function clearVisitForm(){
       $(".mistakeFieldLabel").removeClass("mistakeFieldLabel");
-     
-     
      
      $("#visitFormDiv .visitMessageDiv").html('<p>Ready</p>');
      
@@ -537,7 +473,6 @@ function clearVisitForm(){
        $('#visitFormDiv input:checkbox').prop('checked',false);
        $('#otherAttender').prop('disabled', true);
        
-  
 }
 
 
@@ -545,10 +480,10 @@ function clearVisitForm(){
 
 function submitVisit(){
 
-    if (appsScriptLocked){return;}
+    if (waitAjaxLock){return;}
 
     $(".mistakeFieldLabel").removeClass("mistakeFieldLabel");
-    $("#visitFormDiv .visitMessageDiv p").text('Submitting...');
+    $("#visitFormDiv .visitMessageDiv").html('<p>Submitting...</p>');
     $("#visitFormDiv").scrollTop(0);  //  $(document).scrollTop( $("#visitFormDiv").offset().top );  
     
      
@@ -567,36 +502,26 @@ function submitVisit(){
         
         }
         else if (type === "object"){
-            appsScriptLocked = true;
+            waitAjaxLock = true;
             
             $.post("saveVisit", {data: JSON.stringify(result)}, function(){
 
                 $("#visitFormDiv .visitMessageDiv p").text('Done');
-                 appsScriptLocked = false;
+                 waitAjaxLock = false;
 
            }).fail(function( jqXHR,  textStatus, errorThrown) {
 
                 $("#visitFormDiv .visitMessageDiv p").text(jqXHR.responseText);
                 $("#visitFormDiv .visitMessageDiv").addClass("mistakeFieldLabel");
-                appsScriptLocked = false;
+                waitAjaxLock = false;
            });
-            
-            
-           
         }
-    
-    
     }
 }
 
 
 
-
-
-
 function readVisitFormValues(){
-
-
 
       var errorHtmlString="";
      
@@ -702,9 +627,6 @@ function readVisitFormValues(){
       
 //TREATMENT SCORES
 
-
-      
-
       var inattentionTot =   parseInt($("#inattentionTotal").val());
       if (isNaN(inattentionTot)){
           errorHtmlString+= '<p>Total inattention must be a number</p>';
@@ -749,11 +671,6 @@ function readVisitFormValues(){
                $("#cgas").prev().addClass("mistakeFieldLabel");
            }
       }
-      
-      
-     
-    
-  
       
       
 //MEDICATION CURRENT TAKING
@@ -819,20 +736,17 @@ function readVisitFormValues(){
 }
 
 
-
-
-
 //FIND PATIENTS
 
 function findPatients(){
 
-    if (appsScriptLocked){return;}
+    if (waitAjaxLock){return;}
 
     $("#updatePatientBtn").remove();
     var name = $("#searchCriteria").val();
     
     $("#patientListHeader p").text("Searching...");
-    appsScriptLocked = true;
+    waitAjaxLock = true;
     
     $.post("findPatients", {name: name}, function(data){
         
@@ -841,15 +755,12 @@ function findPatients(){
     }).fail(function( jqXHR,  textStatus, errorThrown) {
        
          $("#patientListHeader p").text(jqXHR.responseText); 
-         appsScriptLocked = false;
+         waitAjaxLock = false;
     });
 }
 
 
 function findPatientsSucceed(allPatients){//[{},{},{}...]
-
-
-   
 
      var patientListHolder = $("#patientListHolder");
      patientListHolder.html('');
@@ -871,7 +782,7 @@ function findPatientsSucceed(allPatients){//[{},{},{}...]
                            '<button type="button"  onclick="showVisitForm(this)" >Add visit</button>'+
                            '<button type="button"  onclick="viewVisits(this)" >View Visits</button>'+
                            '<button type="button"  onclick="editPatient(this)" >Edit patient</button>'+
-                           '<button type="button"  onclick="deletePatient(this)"   >Delete patient</button>'+
+                           '<button type="button"  onclick="deletePatient(this)">Delete patient</button>'+
               
                       '</div>';
          
@@ -882,7 +793,7 @@ function findPatientsSucceed(allPatients){//[{},{},{}...]
      
 
      $("#patientListHeader p").text('Results: '+allPatients.length); 
-     appsScriptLocked = false;
+     waitAjaxLock = false;
 }
 
 
@@ -920,7 +831,7 @@ function toggleAddPatient(){
 
 function addUpdatePatient(type){
 
-           if (appsScriptLocked){return;}
+           if (waitAjaxLock){return;}
 
 
            if (type==="add"){
@@ -972,15 +883,15 @@ function addUpdatePatient(type){
                            birthDate:assembleDate(dayStrAge, monthNumAge, yearStrAge), 
                            firstVisit: assembleDate(dayStrFirst, monthNumFirst, yearStrFirst), comment: comment, gender: gender   };
          
-         appsScriptLocked = true;
+         waitAjaxLock = true;
          if (type==="add"){
            
                 $.post("saveUpdatePatient", {data:  JSON.stringify(dataToSave), type:"save"}, function(){
                      $("#messageP").text("Saved user successfully"); 
-                     appsScriptLocked = false;
+                     waitAjaxLock = false;
                 }).fail(function( jqXHR,  textStatus, errorThrown) {
                      $("#messageP").text(jqXHR.responseText); 
-                     appsScriptLocked = false;
+                     waitAjaxLock = false;
                 });
            
          }
@@ -991,7 +902,7 @@ function addUpdatePatient(type){
                       updateUserSucceed(dataToSave);
                 }).fail(function( jqXHR,  textStatus, errorThrown) {
                       $("#messageP").text(jqXHR.responseText); 
-                      appsScriptLocked = false;
+                      waitAjaxLock = false;
                 });
               
  
@@ -1024,7 +935,7 @@ function updateUserSucceed( dataToSave){
      
      });
      
-     appsScriptLocked = false;
+     waitAjaxLock = false;
      
 }
 
@@ -1086,5 +997,3 @@ function addMedicationLine(e){
         "<input type='text' style='width:300px' class='visitInputElement'>"+
         "<button type='button' onclick='(function(e){ $(e).parent().remove();})(this)'>remove</button><br/><div>").insertBefore($(e));
 }
-
-

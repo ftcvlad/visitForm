@@ -1,14 +1,14 @@
-package visitForm.servlets;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package visitForm.servlets;
 
 import visitForm.models.User;
-import visitForm.models.Patient;
-import visitForm.models.PatientsTable;
+
+import visitForm.models.Visit;
+import visitForm.models.VisitTable;
 
 import java.io.IOException;
 
@@ -26,16 +26,16 @@ import java.sql.Connection;
 import javax.naming.NamingException;
 import javax.naming.InitialContext;
 import java.util.ArrayList;
-
-
-
 import com.google.gson.Gson;
+
+
+
 /**
  *
  * @author Vlad
  */
-@WebServlet(urlPatterns = {"/findPatients"})
-public class findPatients extends HttpServlet {
+@WebServlet(name = "getVisits", urlPatterns = {"/getVisits"})
+public class getVisits extends HttpServlet {
 
     private DataSource dataSource;
     
@@ -49,35 +49,40 @@ public class findPatients extends HttpServlet {
 		}
     }
     
+
+ 
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
        
-        String name = request.getParameter("name");
+        int id = Integer.parseInt(request.getParameter("id"));
        
         
         Connection conn = null ;
         HttpSession session = request.getSession(false);
-        System.out.println("))): "+session.getMaxInactiveInterval()); 
         User us = (User) session.getAttribute("user");
         String activeUserEmail = us.getUsername();
-        PatientsTable pt = new PatientsTable();
+        VisitTable vt = new VisitTable();
       
         try {
 
-            conn= dataSource.getConnection();
-            ArrayList<Patient> allPatients = pt.findPatients(activeUserEmail,name,conn);
+           conn= dataSource.getConnection();
             
-            String json = new Gson().toJson(allPatients);
+            
+         
+           ArrayList<Visit> retrievedVisits = vt.getVisits(activeUserEmail, id, conn);
+ 
+            String jsonString = new Gson().toJson(retrievedVisits);
+            
+//            Gson gson = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
+//            String prettyJson = gson.toJson(retrievedVisits);
+//            System.out.println(prettyJson);
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
-
-           
-           
-          
+            response.getWriter().println(jsonString);
             
         }
         catch (SQLException sqle){
@@ -96,6 +101,5 @@ public class findPatients extends HttpServlet {
 
 
     }
-
 
 }

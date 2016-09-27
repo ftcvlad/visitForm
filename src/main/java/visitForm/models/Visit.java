@@ -81,6 +81,22 @@ public class Visit {
             return reviewIn;
         }
 
+        public void setWeightGrowthOk(int weightGrowthOk) {
+            this.weightGrowthOk = weightGrowthOk;
+        }
+
+        public void setBloodPressureOk(int bloodPressureOk) {
+            this.bloodPressureOk = bloodPressureOk;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+
+        public void setReviewIn(int reviewIn) {
+            this.reviewIn = reviewIn;
+        }
+
         
         
     }
@@ -95,6 +111,14 @@ public class Visit {
 
         public String getChildViewNotes() {
             return childViewNotes;
+        }
+
+        public void setParentViewNotes(String parentViewNotes) {
+            this.parentViewNotes = parentViewNotes;
+        }
+
+        public void setChildViewNotes(String childViewNotes) {
+            this.childViewNotes = childViewNotes;
         }
         
     }
@@ -125,8 +149,42 @@ public class Visit {
         public int getCgas() {
             return cgas;
         }
+
+        public void setInattentionTot(int inattentionTot) {
+            this.inattentionTot = inattentionTot;
+        }
+
+        public void setImpulsivityTotal(int impulsivityTotal) {
+            this.impulsivityTotal = impulsivityTotal;
+        }
+
+        public void setInattentionMean(int inattentionMean) {
+            this.inattentionMean = inattentionMean;
+        }
+
+        public void setDeportmentMean(int deportmentMean) {
+            this.deportmentMean = deportmentMean;
+        }
+
+        public void setCgas(int cgas) {
+            this.cgas = cgas;
+        }
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     public Clinician getClin() {
