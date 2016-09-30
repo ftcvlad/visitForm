@@ -41,7 +41,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        System.out.println("I am Login get and I feel alright :)");
+       
         request.getRequestDispatcher("WEB-INF/Login.jsp").forward(request, response);
     }
 

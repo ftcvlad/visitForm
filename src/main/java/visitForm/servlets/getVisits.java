@@ -56,10 +56,7 @@ public class getVisits extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-       
-        int id = Integer.parseInt(request.getParameter("id"));
-       
-        
+   
         Connection conn = null ;
         HttpSession session = request.getSession(false);
         User us = (User) session.getAttribute("user");
@@ -67,7 +64,7 @@ public class getVisits extends HttpServlet {
         VisitTable vt = new VisitTable();
       
         try {
-
+           int id = Integer.parseInt(request.getParameter("id"));
            conn= dataSource.getConnection();
             
             
@@ -84,6 +81,9 @@ public class getVisits extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().println(jsonString);
             
+        }
+        catch (java.lang.NumberFormatException e){
+                response.sendError(400, "request should contain proper id");
         }
         catch (SQLException sqle){
                 sqle.printStackTrace();

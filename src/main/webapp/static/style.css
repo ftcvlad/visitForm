@@ -573,13 +573,6 @@ body{
    margin-right: 15px;
 }
 
-#logout{
-   background-image: url("//i.imgur.com/93DStFm.png");
-   width:29px;
-   height:33px;
-}
-
-
 html{
     height:100%;
 
@@ -614,8 +607,12 @@ html{
 .tooltip_content { display: none; }
 
 
-#logout{
 
+
+#logout{
+    background-image: url("//i.imgur.com/93DStFm.png");
+    width:29px;
+    height:33px;
    
     text-align: center;
     line-height: 30px;

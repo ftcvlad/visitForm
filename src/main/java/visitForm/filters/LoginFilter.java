@@ -7,19 +7,12 @@ package visitForm.filters;
  */
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -27,8 +20,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpSession;
 
 /**
- *http://stackoverflow.com/questions/13274279/authentication-filter-and-servlet-for-login
- * http://stackoverflow.com/questions/20371220/what-is-the-difference-between-response-sendredirect-and-request-getrequestdis
  * @author Vlad
  */
 
@@ -42,7 +33,7 @@ public class LoginFilter implements Filter {
     
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {    
-         System.out.println("i HAVE DONE THE FCKING FILER!");
+       
         
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
@@ -59,7 +50,7 @@ public class LoginFilter implements Filter {
         boolean loginRequest = requestURI.equals(loginURI);
         boolean registerRequest = requestURI.equals(registerURI);
         
-        System.out.println(request.getRequestURI()+" "+loggedIn+" "+loginRequest+" "+registerRequest+" "+System.currentTimeMillis());
+        //System.out.println(request.getRequestURI()+" "+loggedIn+" "+loginRequest+" "+registerRequest+" "+System.currentTimeMillis());
       
        
         if (requestURI.startsWith("/visitFormMaven/static/")) {
@@ -98,6 +89,6 @@ public class LoginFilter implements Filter {
     
     @Override
     public void init(FilterConfig fc) {   //called when server starts!    
-       System.out.println("--------------------------------------------------------");
+      
     }
 }

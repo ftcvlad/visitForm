@@ -748,7 +748,7 @@ function findPatients(){
     $("#patientListHeader p").text("Searching...");
     waitAjaxLock = true;
     
-    $.post("findPatients", {name: name}, function(data){
+    $.get("findPatients", {name: name}, function(data){
         
         findPatientsSucceed(data);
        
