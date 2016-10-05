@@ -73,25 +73,23 @@ public class saveVisit extends HttpServlet {
 
            conn= dataSource.getConnection();
             
-            System.out.println(jsonString);
+            //System.out.println(jsonString);
             
             // https://futurestud.io/tutorials/gson-mapping-of-nested-objects
            Visit visitToSave = new Gson().fromJson(jsonString, Visit.class);
            
-         
  
-           //System.out.println(new Gson().toJson(visitToSave.getAllMedications()));
-         
            boolean success = vt.saveVisit(activeUserEmail, visitToSave, conn);
            if (!success){//this is just if user modified javascript and tried to add visit to not his patient 
                response.setStatus(400);
+               response.setContentType("text/plain");
                response.getWriter().write("Visit not saved");
            }
             
         }
         catch (SQLException sqle){
                 sqle.printStackTrace();
-            
+                response.setContentType("text/plain");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Database error");
         }

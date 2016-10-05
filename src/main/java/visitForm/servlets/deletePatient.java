@@ -64,6 +64,7 @@ public class deletePatient extends HttpServlet {
 
             int nDeleted = pt.deletePatient(activeUserEmail, patientId,conn);
             if (nDeleted==0){
+                    response.setContentType("text/plain");
                     response.setStatus(400);
                     response.getWriter().write("No rows updated");
             }
@@ -72,7 +73,7 @@ public class deletePatient extends HttpServlet {
        
         catch (SQLException sqle){
                 sqle.printStackTrace();
-            
+                response.setContentType("text/plain");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Database error");
         }

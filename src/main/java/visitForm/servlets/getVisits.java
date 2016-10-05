@@ -83,11 +83,14 @@ public class getVisits extends HttpServlet {
             
         }
         catch (java.lang.NumberFormatException e){
-                response.sendError(400, "request should contain proper id");
+                response.setStatus(400);
+                response.setContentType("text/plain");
+                response.getWriter().write("request should contain proper id");
+               
         }
         catch (SQLException sqle){
                 sqle.printStackTrace();
-            
+                response.setContentType("text/plain");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Database error");
         }

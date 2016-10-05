@@ -38,8 +38,6 @@ public class logout extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().println("{\"redirectAddr\":\"Login\"}");
 
-
-            return;
             
         }
         catch (Exception sqle)

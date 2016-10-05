@@ -71,7 +71,13 @@ public class LoginFilter implements Filter {
                  chain.doFilter(request, response);
             }
             else{
-                response.sendRedirect(loginURI);//+++
+                if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
+                    response.setStatus(401);
+                    response.getWriter().print("Session expired");
+                }
+                else{
+                    response.sendRedirect(loginURI);//+++
+                }
             }
         }
         

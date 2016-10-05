@@ -66,10 +66,10 @@ public class Login extends HttpServlet {
             User us=new User();
             try{
                
-                long start = System.currentTimeMillis();
+                
                 conn = dataSource.getConnection();
                 boolean isValid = us.isValidUser(username, password, conn);
-                 System.out.println("Time passed: "+(System.currentTimeMillis()-start));
+               
                
                 if (isValid){
                     us.setUsername(username);

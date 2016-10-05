@@ -73,6 +73,7 @@ public class SaveUpdatePatient extends HttpServlet {
                 int rowsUpdated = pt.updatePatient(patient,conn);
                 if (rowsUpdated==0){
                     response.setStatus(400);
+                    response.setContentType("text/plain");
                     response.getWriter().write("No rows updated");
                 }
             }
@@ -80,7 +81,7 @@ public class SaveUpdatePatient extends HttpServlet {
 
         catch (SQLException sqle){
                 sqle.printStackTrace();
-            
+                response.setContentType("text/plain");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Database error");
         }

@@ -59,7 +59,7 @@ public class findPatients extends HttpServlet {
         
         Connection conn = null ;
         HttpSession session = request.getSession(false);
-        System.out.println("))): "+session.getMaxInactiveInterval()); 
+ 
         User us = (User) session.getAttribute("user");
         String activeUserEmail = us.getUsername();
         PatientsTable pt = new PatientsTable();
@@ -82,7 +82,7 @@ public class findPatients extends HttpServlet {
         }
         catch (SQLException sqle){
                 sqle.printStackTrace();
-            
+                response.setContentType("text/plain");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Database error");
         }

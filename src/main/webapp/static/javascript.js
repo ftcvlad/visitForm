@@ -33,23 +33,44 @@ $(document).ready(function () {
 });
 
 
+
 function sendLogoutRequest(){
    
     if (waitAjaxLock){return;}
-    
-    waitAjaxLock = true;
-    $.post("logout",function(data){
-        waitAjaxLock = false;
-        window.location.href = data.redirectAddr;
-    }, "json")
-    .fail(function(jqXHR, textStatus, errorThrown ) {
-        waitAjaxLock = false;
-        alert(errorThrown);
-    });
-                
-    
-     
+
+    doAjaxRequest("logout",{},
+                    function(response){
+                         window.location.href = response.redirectAddr;
+                    },   
+                           
+                    function(jqXHR,errorStatus,errorThrown){
+                    },
+                    "post");
+
 }
+
+function doAjaxRequest(path, data, successF, failF, method){
+    waitAjaxLock=true;
+    jQuery.ajax({
+        method: method, 
+        url: path, 
+        data: data,
+        success: function ( response,textStatus,jqXHR){successF(response);},
+        error: function(jqXHR, errorStatus, errorThrown) {
+
+            if( jqXHR.responseText==="Session expired" ) {
+                        window.location="Login";
+            }
+            else{
+                failF(jqXHR, errorStatus,errorThrown);
+            }
+        },
+        complete: function(){waitAjaxLock=false;}
+
+    });
+}
+
+
 
 function resizeContent(){
 
@@ -131,22 +152,17 @@ function deletePatient(target){
       var obj = JSON.parse($(target).parent().data("info"));
       var patientId = obj["id"];
       
-      waitAjaxLock = true;
-     
-      
-       $.post("deletePatient", {patientId: patientId}, function(){
-        
-            $(target).parent().remove();
-            $("#patientListHeader p").text('Patient deleted successfully');
-            waitAjaxLock = false;
-            
 
-        }).fail(function( jqXHR,  textStatus, errorThrown) {
-
-             $("#patientListHeader p").text(jqXHR.responseText);
-             waitAjaxLock = false;
-        });
-     
+         doAjaxRequest("deletePatient",{patientId: patientId},
+                    function(){
+                         $(target).parent().remove();
+                         $("#patientListHeader p").text('Patient deleted successfully');
+                    },   
+                           
+                    function(jqXHR,errorStatus,errorThrown){
+                        $("#patientListHeader p").text(jqXHR.responseText);
+                    },
+                    "post");
     
 
 }
@@ -174,27 +190,20 @@ function viewVisits(target){
 
       par.text('Retrieving visit list...');
      
-        
-    
-
-    
       var obj = JSON.parse($(target).parent().data("info"));
         
       var patientId = obj["id"];
    
-  
+     doAjaxRequest("getVisits",{id:patientId},
+                    function(response){
+                        return viewVisitsDisplay(response,obj);
+                    },          
+                    function(jqXHR,errorStatus,errorThrown){
+                        $("#visitListDiv .visitMessageDiv p").text(jqXHR.responseText);
+                        $("#visitListDiv .visitMessageDiv").addClass("mistakeFieldLabel");
+                    },
+                    "get");
     
-      waitAjaxLock = true;
-    
-    $.get("getVisits",{id:patientId},function(data){
-        viewVisitsDisplay(data,obj);
-    })
-    .fail(function(jqXHR,errorStatus,errorThrown){
-        $("#visitListDiv .visitMessageDiv p").text(errorThrown);
-        $("#visitListDiv .visitMessageDiv").addClass("mistakeFieldLabel");
-        waitAjaxLock = false;
-                
-    });  
     
 }
 
@@ -317,8 +326,7 @@ function viewVisitsDisplay(responseArray, patientData){
     var par = $("#visitListDiv .visitMessageDiv p");
     par.html(patientData.name+" "+patientData.surname);
 
-    
-    waitAjaxLock = false;
+ 
 }
 
 
@@ -502,19 +510,16 @@ function submitVisit(){
         
         }
         else if (type === "object"){
-            waitAjaxLock = true;
-            
-            $.post("saveVisit", {data: JSON.stringify(result)}, function(){
 
-                $("#visitFormDiv .visitMessageDiv p").text('Done');
-                 waitAjaxLock = false;
-
-           }).fail(function( jqXHR,  textStatus, errorThrown) {
-
-                $("#visitFormDiv .visitMessageDiv p").text(jqXHR.responseText);
-                $("#visitFormDiv .visitMessageDiv").addClass("mistakeFieldLabel");
-                waitAjaxLock = false;
-           });
+               doAjaxRequest("saveVisit",{data: JSON.stringify(result)},
+                    function(){
+                         $("#visitFormDiv .visitMessageDiv p").text('Done');
+                    },          
+                    function(jqXHR,errorStatus,errorThrown){
+                         $("#visitFormDiv .visitMessageDiv p").text(jqXHR.responseText);
+                         $("#visitFormDiv .visitMessageDiv").addClass("mistakeFieldLabel");
+                    },
+                    "post");
         }
     }
 }
@@ -746,17 +751,18 @@ function findPatients(){
     var name = $("#searchCriteria").val();
     
     $("#patientListHeader p").text("Searching...");
-    waitAjaxLock = true;
+
     
-    $.get("findPatients", {name: name}, function(data){
-        
-        findPatientsSucceed(data);
-       
-    }).fail(function( jqXHR,  textStatus, errorThrown) {
-       
-         $("#patientListHeader p").text(jqXHR.responseText); 
-         waitAjaxLock = false;
-    });
+    doAjaxRequest("findPatients",{name: name},
+                    function(response){
+                         return  findPatientsSucceed(response);
+                    },          
+                    function(jqXHR,errorStatus,errorThrown){
+                         $("#patientListHeader p").text(jqXHR.responseText); 
+                    },
+                    "get");
+    
+    
 }
 
 
@@ -793,7 +799,7 @@ function findPatientsSucceed(allPatients){//[{},{},{}...]
      
 
      $("#patientListHeader p").text('Results: '+allPatients.length); 
-     waitAjaxLock = false;
+    
 }
 
 
@@ -883,27 +889,29 @@ function addUpdatePatient(type){
                            birthDate:assembleDate(dayStrAge, monthNumAge, yearStrAge), 
                            firstVisit: assembleDate(dayStrFirst, monthNumFirst, yearStrFirst), comment: comment, gender: gender   };
          
-         waitAjaxLock = true;
+         
          if (type==="add"){
            
-                $.post("saveUpdatePatient", {data:  JSON.stringify(dataToSave), type:"save"}, function(){
-                     $("#messageP").text("Saved user successfully"); 
-                     waitAjaxLock = false;
-                }).fail(function( jqXHR,  textStatus, errorThrown) {
-                     $("#messageP").text(jqXHR.responseText); 
-                     waitAjaxLock = false;
-                });
-           
+                doAjaxRequest("saveUpdatePatient",{data:  JSON.stringify(dataToSave), type:"save"},
+                    function(){
+                          $("#messageP").text("Saved user successfully"); 
+                    },          
+                    function(jqXHR,errorStatus,errorThrown){
+                         $("#messageP").text(jqXHR.responseText); 
+                    },
+                    "post");
          }
          else if (type==="update"){
                 dataToSave.id = $("#updatePatientBtn").data("id");
-
-                $.post("saveUpdatePatient", {data:  JSON.stringify(dataToSave), type:"update"}, function(){
-                      updateUserSucceed(dataToSave);
-                }).fail(function( jqXHR,  textStatus, errorThrown) {
-                      $("#messageP").text(jqXHR.responseText); 
-                      waitAjaxLock = false;
-                });
+                
+                doAjaxRequest("saveUpdatePatient",{data:  JSON.stringify(dataToSave), type:"update"},
+                    function(){
+                          return updateUserSucceed(dataToSave);
+                    },          
+                    function(jqXHR,errorStatus,errorThrown){
+                         $("#messageP").text(jqXHR.responseText); 
+                    },
+                    "post");
               
  
          }
@@ -934,8 +942,6 @@ function updateUserSucceed( dataToSave){
             }
      
      });
-     
-     waitAjaxLock = false;
      
 }
 
