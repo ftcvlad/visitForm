@@ -28,8 +28,8 @@
         
          <div class="linksSection">
                   
-                   <button class="imageButton" id="fitbitLink"  onclick="location.href='https://script.google.com/macros/s/AKfycbwhTCgEysLClLPQSp8yYkyr51qjQVpICQR-MTFbFVQPNafxyNY/exec'"></button>
-                   <button class="imageButton" id="geneactivLink"  onclick="location.href='https://script.google.com/macros/s/AKfycbwRQxBTTAFIlXqBQe1NLXzXdZJ2PziG6YPIZ8uefcPtMMxGuxW4/exec'"></button>                
+                   <button class="imageButton" id="fitbitLink"  onclick="location.href='http://silva.computing.dundee.ac.uk/2016-vlad-fitbit/'"></button>
+                   <button class="imageButton" id="geneactivLink"  onclick="location.href='http://silva.computing.dundee.ac.uk/2016-vlad-geneactiv'"></button>                
                    <button class="imageButton tooltipShower" id="logout" data-tooltip-content="#logoutFrame" ></button>
                  
                    <div class="tooltip_content">

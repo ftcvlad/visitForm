@@ -5,6 +5,7 @@
  */
 package visitForm.models;
 
+import visitForm.stores.Visit;
 import java.sql.Connection;
 import com.google.gson.Gson;
 import java.sql.PreparedStatement;
@@ -24,21 +25,21 @@ public class VisitTable {
       
       
     
-        PreparedStatement stmt0 = conn.prepareStatement("SELECT formpatients.nOfVisits FROM formpatients WHERE clinician=? AND id=? LIMIT 1 ");
+        PreparedStatement stmt0 = conn.prepareStatement("SELECT form_patients.nOfVisits FROM form_patients WHERE clinician=? AND id=? LIMIT 1 ");
         stmt0.setString(1,activeUserEmail );
         stmt0.setInt(2,visitToSave.getId() );
         ResultSet rs0 = stmt0.executeQuery();
         
-        System.out.println(activeUserEmail+" "+visitToSave.getId());
+      
         if (rs0.next()){
 
               
-              PreparedStatement stmt1 = conn.prepareStatement("UPDATE formpatients SET nOfVisits=nOfVisits+1 WHERE id=? ;");
+              PreparedStatement stmt1 = conn.prepareStatement("UPDATE form_patients SET nOfVisits=nOfVisits+1 WHERE id=? ;");
               stmt1.setInt(1,visitToSave.getId());
               stmt1.executeUpdate();
 
 
-              PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO visits (name,date,attendees,appointmentType,weightGrowthOk,bloodPressureOk,reviewIn,"+
+              PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO form_visits (name,date,attendees,appointmentType,weightGrowthOk,bloodPressureOk,reviewIn,"+
                                                                     "commentPlan, parentViewNotes, childViewNotes, inattentionTotal,impulsivityTotal,"+
                                                                     "inattentionMean,deportmentMean,cgas,allMedications,otherSymptoms,patientId)"+
                                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
@@ -81,7 +82,7 @@ public class VisitTable {
     public ArrayList<Visit> getVisits(String activeUserEmail, int id , Connection conn) throws SQLException{
         
         //could use some join :)
-        PreparedStatement stmt0 = conn.prepareStatement("SELECT 1 FROM formpatients WHERE clinician=? AND id=? LIMIT 1 ");
+        PreparedStatement stmt0 = conn.prepareStatement("SELECT 1 FROM form_patients WHERE clinician=? AND id=? LIMIT 1 ");
         stmt0.setString(1,activeUserEmail);
         stmt0.setInt(2,id);
         ResultSet rs0 = stmt0.executeQuery();
@@ -96,7 +97,7 @@ public class VisitTable {
                PreparedStatement stmt1 = conn.prepareStatement("SELECT name, date, attendees, appointmentType, weightGrowthOk, bloodPressureOk, reviewIn, commentPlan, "+
                                                   "parentViewNotes, childViewNotes, inattentionTotal, impulsivityTotal, inattentionMean,"+
                                                   "deportmentMean, cgas, allMedications, otherSymptoms "+
-                                                  "FROM visits WHERE patientId=? ORDER BY date DESC;");
+                                                  "FROM form_visits WHERE patientId=? ORDER BY date DESC;");
                stmt1.setInt(1,id);
                ResultSet rs1 = stmt1.executeQuery(); 
 

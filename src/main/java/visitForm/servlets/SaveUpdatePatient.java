@@ -21,7 +21,7 @@ import javax.naming.InitialContext;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
-import visitForm.models.Patient;
+import visitForm.stores.Patient;
 
 import com.google.gson.Gson;
 /**

@@ -7,7 +7,7 @@ package visitForm.servlets;
 
 import visitForm.models.User;
 
-import visitForm.models.Visit;
+import visitForm.stores.Visit;
 import visitForm.models.VisitTable;
 
 import java.io.IOException;

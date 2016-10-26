@@ -6,6 +6,7 @@
 package visitForm.models;
 
 
+import visitForm.stores.Patient;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class PatientsTable {
         }
 
         stmt = conn.prepareStatement("SELECT name, surname, gender, birth, firstVisit, comment, nOfVisits, id"+
-                                         " FROM formpatients"+
+                                         " FROM form_patients"+
                                          " WHERE clinician=? "+nameCondition+" ORDER BY name ASC;");
         stmt.setString(1, activeUserEmail);                  
         if (!name.equals("")){
@@ -65,7 +66,7 @@ public class PatientsTable {
     public void savePatient(Patient patToSave,Connection conn) throws SQLException{
             
 
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO formpatients( clinician, name, surname, gender, birth, firstVisit, comment, nOfVisits)"+
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO form_patients( clinician, name, surname, gender, birth, firstVisit, comment, nOfVisits)"+
                                            " VALUES (?,?,?,?,?,?,?,?);");
 
             
@@ -85,7 +86,7 @@ public class PatientsTable {
      public int updatePatient(Patient patToSave,Connection conn) throws SQLException{
          
           
-            PreparedStatement stmt = conn.prepareStatement("UPDATE formpatients"+
+            PreparedStatement stmt = conn.prepareStatement("UPDATE form_patients"+
                                              " SET name=?, surname=?,gender=?, birth=?, firstVisit=?, comment=?"+
                                              " WHERE clinician=? AND id=? ;"); 
 
@@ -107,7 +108,7 @@ public class PatientsTable {
        public int deletePatient(String activeUserEmail,int patientId,Connection conn) throws SQLException{
        
 
-            PreparedStatement stmt = conn.prepareStatement(" delete from formpatients"+ 
+            PreparedStatement stmt = conn.prepareStatement(" delete from form_patients"+ 
                                            " where clinician =? AND id=? limit 1;");
 
             stmt.setString(1, activeUserEmail); 

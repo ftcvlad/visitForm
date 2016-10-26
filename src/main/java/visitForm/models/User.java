@@ -9,7 +9,6 @@ package visitForm.models;
 
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -43,7 +42,7 @@ public class User {
 //            Class.forName("com.mysql.jdbc.Driver");
 //           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/formschema","AppsScript","iamgoogle");
 
-        stmt = conn.prepareStatement("SELECT password from allclinicians where username =?");
+        stmt = conn.prepareStatement("SELECT password from form_allclinicians where username =?");
         stmt.setString(1,username);
         ResultSet rs = stmt.executeQuery();
 
@@ -67,11 +66,10 @@ public class User {
        
         PreparedStatement stmt;
 
-        stmt = conn.prepareStatement("INSERT INTO allclinicians (username, password) VALUES (?,?)");
+        stmt = conn.prepareStatement("INSERT INTO form_allclinicians (username, password) VALUES (?,?)");
         stmt.setString(1,username );
         stmt.setString(2,password );
         stmt.executeUpdate();
-        return;
 
     }
     

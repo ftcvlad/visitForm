@@ -53,7 +53,7 @@ public class LoginFilter implements Filter {
         //System.out.println(request.getRequestURI()+" "+loggedIn+" "+loginRequest+" "+registerRequest+" "+System.currentTimeMillis());
       
        
-        if (requestURI.startsWith("/visitFormMaven/static/")) {
+        if (requestURI.startsWith(contextPath+"/static/")) {
             chain.doFilter(request, response);
         } 
         else if (loggedIn){
