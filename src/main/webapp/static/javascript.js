@@ -278,19 +278,7 @@ function viewVisitsDisplay(responseArray, patientData){
               
               page.append('<table class="symptomTable"><thead><tr><th></th><th>Not present</th><th>Preset but not impairing</th><th>Present &amp; impairing</th></tr></thead><tbody></tbody>');
               var fatBody = $("#page"+nextPageId+" tbody");
-              for (var j=0;j< responseArray[i].otherSymptoms.length;j++){
-        
-                    var propName = responseArray[i].otherSymptoms[j];
-                    var val = parseInt(responseArray[i].otherSymptoms[j+1]);
-                    j++;
-                   
-                    var tableDatas = '<td><label class="tableLable" >'+propName+'</label></td>';
-                    for (var k=1;k<=3;k++){
-                        tableDatas+= (val===k?'<td>&#10004;</td>' : '<td></td>');
-                    }
-                    
-                    fatBody.append('<tr>'+tableDatas+'</tr>');
-              }
+
               
             // object properties do not have order :(   
             var tableDatas = '<td><label class="tableLable" >Insomnia or trouble sleeping</label></td>';  
