@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package visitForm.stores;
-
-import java.util.ArrayList;
-
-//     var allData = {clinicians:{name:nameOfClinician, date:visitDate, attendees:attendee}, 
 //                          appointmentType:appointmentType, 
 //                          plan:{weightGrowthOk:weightGrowthOk,bloodPressureOk:bloodPressureOk, comment:commentPlan, reviewIn:reviewIn},
 //                          progressProblems:{parentViewNotes:parentViewNotes, childViewNotes:childViewNotes},
@@ -25,7 +21,7 @@ public class Visit {
     private ProgressProblems progressProblems;
     private TreatmentScores treatmentScores;
     private String[] allMedications;
-    private String[] otherSymptoms;
+    private OtherSymptoms otherSymptoms;
     private int id;
     
     public static class Clinician{
@@ -175,7 +171,173 @@ public class Visit {
     
     
     
-    
+     public static class OtherSymptoms{
+        private int insomnia;
+        private int nightmares;
+        private int drowsiness;
+        private int anorexia;
+        private int stomachaches;
+        private int headaches;
+        private int dizziness;
+        private int unhappy;
+        private int crying;
+        private int irritable;
+        private int selfharm;
+        private int suicidal;
+        private int euphoric;
+        private int anxious;
+        private int ticks;
+        private int zombie;
+        private int lesstalk;
+        private int lesssociable;
+
+        public int getInsomnia() {
+            return insomnia;
+        }
+
+        public void setInsomnia(int insomnia) {
+            this.insomnia = insomnia;
+        }
+
+        public int getNightmares() {
+            return nightmares;
+        }
+
+        public void setNightmares(int nightmares) {
+            this.nightmares = nightmares;
+        }
+
+        public int getDrowsiness() {
+            return drowsiness;
+        }
+
+        public void setDrowsiness(int drowsiness) {
+            this.drowsiness = drowsiness;
+        }
+
+        public int getAnorexia() {
+            return anorexia;
+        }
+
+        public void setAnorexia(int anorexia) {
+            this.anorexia = anorexia;
+        }
+
+        public int getStomachaches() {
+            return stomachaches;
+        }
+
+        public void setStomachaches(int stomachaches) {
+            this.stomachaches = stomachaches;
+        }
+
+        public int getHeadaches() {
+            return headaches;
+        }
+
+        public void setHeadaches(int headaches) {
+            this.headaches = headaches;
+        }
+
+        public int getDizziness() {
+            return dizziness;
+        }
+
+        public void setDizziness(int dizziness) {
+            this.dizziness = dizziness;
+        }
+
+        public int getUnhappy() {
+            return unhappy;
+        }
+
+        public void setUnhappy(int unhappy) {
+            this.unhappy = unhappy;
+        }
+
+        public int getCrying() {
+            return crying;
+        }
+
+        public void setCrying(int crying) {
+            this.crying = crying;
+        }
+
+        public int getIrritable() {
+            return irritable;
+        }
+
+        public void setIrritable(int irritable) {
+            this.irritable = irritable;
+        }
+
+        public int getSelfharm() {
+            return selfharm;
+        }
+
+        public void setSelfharm(int selfharm) {
+            this.selfharm = selfharm;
+        }
+
+        public int getSuicidal() {
+            return suicidal;
+        }
+
+        public void setSuicidal(int suicidal) {
+            this.suicidal = suicidal;
+        }
+
+        public int getEuphoric() {
+            return euphoric;
+        }
+
+        public void setEuphoric(int euphoric) {
+            this.euphoric = euphoric;
+        }
+
+        public int getAnxious() {
+            return anxious;
+        }
+
+        public void setAnxious(int anxious) {
+            this.anxious = anxious;
+        }
+
+        public int getTicks() {
+            return ticks;
+        }
+
+        public void setTicks(int ticks) {
+            this.ticks = ticks;
+        }
+
+        public int getZombie() {
+            return zombie;
+        }
+
+        public void setZombie(int zombie) {
+            this.zombie = zombie;
+        }
+
+        public int getLesstalk() {
+            return lesstalk;
+        }
+
+        public void setLesstalk(int lesstalk) {
+            this.lesstalk = lesstalk;
+        }
+
+        public int getLesssociable() {
+            return lesssociable;
+        }
+
+        public void setLesssociable(int lesssociable) {
+            this.lesssociable = lesssociable;
+        }
+
+        
+
+    }
     
     
     
@@ -211,7 +373,7 @@ public class Visit {
         return allMedications;
     }
 
-    public String[] getOtherSymptoms() {
+    public OtherSymptoms getOtherSymptoms() {
         return otherSymptoms;
     }
 
@@ -243,7 +405,7 @@ public class Visit {
         this.allMedications = allMedications;
     }
 
-    public void setOtherSymptoms(String[] otherSymptoms) {
+    public void setOtherSymptoms(OtherSymptoms otherSymptoms) {
         this.otherSymptoms = otherSymptoms;
     }
 

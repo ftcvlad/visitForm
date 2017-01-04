@@ -264,115 +264,115 @@
                     </thead>
                     
                     <tbody>
-                        <tr>
+                        <tr id="insomnia">
                           <td><label class="tableLable" >Insomnia or trouble sleeping</label></td>
                           <td><input type="radio" name="insomnia"  value="1" checked="true"/></td>
                           <td><input type="radio" name="insomnia"  value="2" /></td>
                           <td><input type="radio" name="insomnia"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="nightmares">
                           <td><label class="tableLable" >Nightmares</label></td>
                           <td><input type="radio" name="nightmares"  value="1" checked="true"/></td>
                           <td><input type="radio" name="nightmares"  value="2" /></td>
                           <td><input type="radio" name="nightmares"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="drowsiness">
                           <td><label class="tableLable" >Drowsiness</label></td>
                           <td><input type="radio" name="drowsiness"  value="1" checked="true"/></td>
                           <td><input type="radio" name="drowsiness"  value="2" /></td>
                           <td><input type="radio" name="drowsiness"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="nausea">
                           <td><label class="tableLable" >Nausea</label></td>
                           <td><input type="radio" name="nausea"  value="1" checked="true"/></td>
                           <td><input type="radio" name="nausea"  value="2" /></td>
                           <td><input type="radio" name="nausea"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="anorexia">
                           <td><label class="tableLable" >Anorexia/less hungry than other children</label></td>
                           <td><input type="radio" name="anorexia"  value="1" checked="true" /></td>
                           <td><input type="radio" name="anorexia"  value="2" /></td>
                           <td><input type="radio" name="anorexia"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="stomachaches">
                           <td><label class="tableLable" >Stomach aches</label></td>
                           <td><input type="radio" name="stomach"  value="1" checked="true"/></td>
                           <td><input type="radio" name="stomach"  value="2" /></td>
                           <td><input type="radio" name="stomach"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="headaches">
                           <td><label class="tableLable" >Headaches</label></td>
                           <td><input type="radio" name="headaches"  value="1" checked="true"/></td>
                           <td><input type="radio" name="headaches"  value="2" /></td>
                           <td><input type="radio" name="headaches"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="dizziness">
                           <td><label class="tableLable" >Dizziness</label></td>
                           <td><input type="radio" name="dizziness"  value="1" checked="true"/></td>
                           <td><input type="radio" name="dizziness"  value="2" /></td>
                           <td><input type="radio" name="dizziness"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="unhappy">
                           <td><label class="tableLable" >Sad/unhappy</label></td>
                           <td><input type="radio" name="sad"  value="1" checked="true"/></td>
                           <td><input type="radio" name="sad"  value="2" /></td>
                           <td><input type="radio" name="sad"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="crying">
                           <td><label class="tableLable" >Prone to crying</label></td>
                           <td><input type="radio" name="crying"  value="1" checked="true"/></td>
                           <td><input type="radio" name="crying"  value="2" /></td>
                           <td><input type="radio" name="crying"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="irritable">
                           <td><label class="tableLable" >Irritable</label></td>
                           <td><input type="radio" name="irritable"  value="1" checked="true"/></td>
                           <td><input type="radio" name="irritable"  value="2" /></td>
                           <td><input type="radio" name="irritable"  value="3" /></td>
                         </tr>
-                         <tr>
+                         <tr id="selfharm">
                           <td><label class="tableLable" >Thoughts of self-harm</label></td>
                           <td><input type="radio" name="harm"  value="1" checked="true"/></td>
                           <td><input type="radio" name="harm"  value="2" /></td>
                           <td><input type="radio" name="harm"  value="3" /></td>
                         </tr>
-                         <tr>
+                         <tr id="suicidal">
                           <td><label class="tableLable" >Suicidal ideation</label></td>
                           <td><input type="radio" name="suicidal"  value="1" checked="true"/></td>
                           <td><input type="radio" name="suicidal"  value="2" /></td>
                           <td><input type="radio" name="suicidal"  value="3" /></td>
                         </tr>
-                         <tr>
+                         <tr id="euphoric">
                           <td><label class="tableLable" >Euphoric/unusually happy</label></td>
                           <td><input type="radio" name="euphoric"  value="1" checked="true"/></td>
                           <td><input type="radio" name="euphoric"  value="2" /></td>
                           <td><input type="radio" name="euphoric"  value="3" /></td>
                         </tr>
-                         <tr>
+                         <tr id="anxious">
                           <td><label class="tableLable" >Anxious</label></td>
                           <td><input type="radio" name="anxious"  value="1" checked="true"/></td>
                           <td><input type="radio" name="anxious"  value="2" /></td>
                           <td><input type="radio" name="anxious"  value="3" /></td>
                         </tr>
-                         <tr>
-                          <td><label class="tableLable" >Tics or nervous movements</label></td>
+                         <tr id="ticks">
+                          <td><label class="tableLable" >Ticks or nervous movements</label></td>
                           <td><input type="radio" name="ticks"  value="1" checked="true"/></td>
                           <td><input type="radio" name="ticks"  value="2" /></td>
                           <td><input type="radio" name="ticks"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="zombie">
                           <td><label class="tableLable" >“Spaced-out”/“Zombie-like”</label></td>
                           <td><input type="radio" name="zombie"  value="1" checked="true"/></td>
                           <td><input type="radio" name="zombie"  value="2" /></td>
                           <td><input type="radio" name="zombie"  value="3" /></td>
                         </tr>
-                        <tr>
+                        <tr id="lesstalk">
                           <td><label class="tableLable" >Less talkative than other children</label></td>
                           <td><input type="radio" name="silent"  value="1" checked="true"/></td>
                           <td><input type="radio" name="silent"  value="2" /></td>
                           <td><input type="radio" name="silent"  value="3" /></td>
                         </tr>
-                         <tr>
+                        <tr id="lesssociable">
                           <td><label class="tableLable" >Less sociable than other children</label></td>
                           <td><input type="radio" name="lessSociable"  value="1" checked="true"/></td>
                           <td><input type="radio" name="lessSociable"  value="2" /></td>

@@ -225,6 +225,7 @@ function viewVisitsDisplay(responseArray, patientData){
      
 //     {name: name, surname:surname, gender:gender,birth:birth, firstVisit: firstVisit, comment:comment, nOfVisits:nOfVisits, id:id}
 
+    
 
       $("#pageNumberDiv").append('<a class="disabledPaginationControl" id="leftArrow">'+'«'+'</a>');
       
@@ -291,7 +292,118 @@ function viewVisitsDisplay(responseArray, patientData){
                     fatBody.append('<tr>'+tableDatas+'</tr>');
               }
               
-              var pageA = $('<a id="'+nextPageId+'" onclick="switchPage('+nextPageId+');">'+nextPageId+'</a>');
+            // object properties do not have order :(   
+            var tableDatas = '<td><label class="tableLable" >Insomnia or trouble sleeping</label></td>';  
+            for (var k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["insomnia"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="insomnia">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Nightmares</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["nightmares"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="nightmares">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Drowsiness</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["drowsiness"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="drowsiness">'+tableDatas+'</tr>');  
+            
+            tableDatas = '<td><label class="tableLable" >Anorexia/less hungry than other children</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["anorexia"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="anorexia">'+tableDatas+'</tr>'); 
+            
+            tableDatas = '<td><label class="tableLable" >Stomach aches</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["stomachaches"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="stomachaches">'+tableDatas+'</tr>'); 
+            
+            tableDatas = '<td><label class="tableLable" >Headaches</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["headaches"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="headaches">'+tableDatas+'</tr>'); 
+            
+            tableDatas = '<td><label class="tableLable" >Dizziness</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["dizziness"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="dizziness">'+tableDatas+'</tr>'); 
+            
+              
+            tableDatas = '<td><label class="tableLable" >Sad/unhappy</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["unhappy"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="unhappy">'+tableDatas+'</tr>');   
+            
+            tableDatas = '<td><label class="tableLable" >Prone to crying</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["crying"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="crying">'+tableDatas+'</tr>'); 
+            
+            tableDatas = '<td><label class="tableLable" >Irritable</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["irritable"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="irritable">'+tableDatas+'</tr>'); 
+            
+            tableDatas = '<td><label class="tableLable" >Thoughts of self-harm</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["selfharm"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="selfharm">'+tableDatas+'</tr>'); 
+            
+            tableDatas = '<td><label class="tableLable" >Suicidal ideation</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["suicidal"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="suicidal">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Euphoric/unusually happy</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["euphoric"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="euphoric">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Anxious</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["anxious"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="anxious">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Ticks or nervous movements</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["ticks"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="ticks">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >"Spaced-out”/“Zombie-like"</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["zombie"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="zombie">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Less talkative than other children</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["lesstalk"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="lesstalk">'+tableDatas+'</tr>');
+            
+            tableDatas = '<td><label class="tableLable" >Less sociable than other children</label></td>';  
+            for (k=1;k<=3;k++){
+                tableDatas+= (responseArray[i].otherSymptoms["lesssociable"]===k?'<td>&#10004;</td>' : '<td></td>');
+            }
+            fatBody.append('<tr id="lesssociable">'+tableDatas+'</tr>');
+                
+                  
+            var pageA = $('<a id="'+nextPageId+'" onclick="switchPage('+nextPageId+');">'+nextPageId+'</a>');
               
           
           
@@ -700,15 +812,41 @@ function readVisitFormValues(){
 //OTHER SYMPTOMS
 
  
-       var symptomsArr=[];   
-       $("#visitFormDiv table tbody tr")  
-          .each(function() { 
-                   var text = $(this).children().eq(0).children().eq(0).text();
-                   var selected = $(this).find("input[type='radio']:checked");
-                   symptomsArr.push(text);
-                   symptomsArr.push(selected.val());
+//       var symptomsArr=[];   
+//       $("#visitFormDiv table tbody tr")  
+//          .each(function() { 
+//                   var text = $(this).children().eq(0).children().eq(0).text();
+//                   var selected = $(this).find("input[type='radio']:checked");
+//                   symptomsArr.push(text);
+//                   symptomsArr.push(selected.val());
+//                   
+//          });
+        
+        var symptoms = {};
+        symptoms.insomnia = parseInt($("#insomnia").find("input[type='radio']:checked").val());
+        symptoms.nightmares = parseInt($("#nightmares").find("input[type='radio']:checked").val());
+        symptoms.drowsiness = parseInt($("#drowsiness").find("input[type='radio']:checked").val());
+        symptoms.anorexia = parseInt($("#anorexia").find("input[type='radio']:checked").val());
+        symptoms.stomachaches = parseInt($("#stomachaches").find("input[type='radio']:checked").val());
+        symptoms.headaches = parseInt($("#headaches").find("input[type='radio']:checked").val());
+        symptoms.dizziness = parseInt($("#dizziness").find("input[type='radio']:checked").val());
+        symptoms.unhappy = parseInt($("#unhappy").find("input[type='radio']:checked").val());
+        symptoms.crying = parseInt($("#crying").find("input[type='radio']:checked").val());
+        symptoms.irritable = parseInt($("#irritable").find("input[type='radio']:checked").val());
+        symptoms.selfharm = parseInt($("#selfharm").find("input[type='radio']:checked").val());
+        symptoms.suicidal = parseInt($("#suicidal").find("input[type='radio']:checked").val());
+        symptoms.euphoric = parseInt($("#euphoric").find("input[type='radio']:checked").val());
+        symptoms.anxious = parseInt($("#anxious").find("input[type='radio']:checked").val());
+        symptoms.ticks = parseInt($("#ticks").find("input[type='radio']:checked").val());
+        symptoms.zombie = parseInt($("#zombie").find("input[type='radio']:checked").val());
+        symptoms.lesstalk = parseInt($("#lesstalk").find("input[type='radio']:checked").val());
+        symptoms.lesssociable = parseInt($("#lesssociable").find("input[type='radio']:checked").val());
+        
+        
                    
-          });
+                     
+        
+        
         
 
 //FINALLY
@@ -719,7 +857,7 @@ function readVisitFormValues(){
                           progressProblems:{parentViewNotes:parentViewNotes, childViewNotes:childViewNotes},
                           treatmentScores:{inattentionTot:inattentionTot,impulsivityTotal:impulsivityTotal,inattentionMean:inattentionMean,deportmentMean:deportmentMean,cgas:cgas },
                           allMedications:allMedications,
-                          otherSymptoms:symptomsArr,
+                          otherSymptoms:symptoms,
                           id: $("#visitFormDiv").data("id")};
 
 // var allData = {clinician:{name:"nameOfClinician", date:"visitDate", attendees:["attendee1", "att2"]}, 
@@ -728,7 +866,7 @@ function readVisitFormValues(){
 //                          progressProblems:{parentViewNotes:"parentViewNotes", childViewNotes:"childViewNotes"},
 //                          treatmentScores:{inattentionTot:1,impulsivityTotal:1,inattentionMean:1,deportmentMean:1,cgas:1 },
 //                          allMedications:["cucuil","mrazil"],
-//                          otherSymptoms:["zzzz","1","kkkk","2"],
+//                          otherSymptoms:{"insomnia": "1","suicidal":"2"},
 //                          id: $("#visitFormDiv").data("id")};
       
            return allData;
